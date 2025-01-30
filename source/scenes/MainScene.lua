@@ -1,35 +1,44 @@
-MainScene = {}
-class("MainScene").extends(NobleScene)
-local scene = MainScene
+import 'sprites/SpiderSprite'
 
-function scene:setValues()
+MainScene = {}
+class("MainScene", MainScene).extends(NobleScene)
+
+local spider
+
+function MainScene:setValues()
 
 end
 
-function scene:init()
-    scene.super.init(self)
+function MainScene:init()
+    MainScene.super.init(self)
+
+    spider = SpiderSprite(100, 100)
+    self:addSprite(spider)
 
     self.inputHandler = {
-
+        AButtonUp = function()
+            print(spider.legCount)
+            spider:wink()
+        end
     }
 end
 
-function scene:enter()
-    scene.super.enter(self)
+function MainScene:enter()
+    MainScene.super.enter(self)
 end
 
-function scene:start()
-    scene.super.start(self)
+function MainScene:start()
+    MainScene.super.start(self)
 end
 
-function scene:drawBackground()
-    scene.super.drawBackground(self)
+function MainScene:drawBackground()
+    MainScene.super.drawBackground(self)
 end
 
-function scene:update()
-    scene.super.update(self)
+function MainScene:update()
+    MainScene.super.update(self)
 end
 
-function scene:exit()
-    scene.super.exit(self)
+function MainScene:exit()
+    MainScene.super.exit(self)
 end
