@@ -1,8 +1,6 @@
-name=A Noble Engine Game
-author=A Lovely Developer
-description=This is a Noble Engine game.
-bundleID=com.yourdomain.GameName
-version=0.0.1
+name=Ryans Template
+author=Ryan Bateman
+description=Template for playdate game
+bundleID=com.ryanbateman.template
+version=1.0.0
 buildNumber=1
-imagePath=assets/launcher/
-launchSoundPath=assets/launcher/sound.wav
