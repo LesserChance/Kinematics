@@ -26,10 +26,12 @@
     "Lua.runtime.version": "Lua 5.4",
     // Path to Playdate type definitions to get auto-complete and annotations
     "Lua.workspace.library": [
-        "./source/libraries/playdate-luacats"
+        "./source/libraries/playdate-luacats",
+        "./source/libraries/noble"
     ],
 
     // ====== Playdate Debug Settings ======
     // Output directory for the compiled game bundle
-    "playdate-debug.outputPath": "builds"
+    "playdate-debug.outputPath": "builds",
+    "Lua.workspace.checkThirdParty": false
 }
