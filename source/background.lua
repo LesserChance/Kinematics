@@ -32,10 +32,10 @@ Background = {
     gravityXLerpTimer = nil,
     gravityYLerpTimer = nil,
 
-    starArcs = {},
-    starArcTimer = nil,
-    starSpawnTimer = nil,
-    starfieldImage = nil,
+    -- starArcs = {},
+    -- starArcTimer = nil,
+    -- starSpawnTimer = nil,
+    -- starfieldImage = nil,
 
     opacity = .1,
     circleShrinkTimer = nil,
@@ -44,42 +44,39 @@ Background = {
 class("Background", Background).extends()
 
 function Background:init()
-    self.starArcTimer = playdate.timer.new(STAR_SPEED, function() self:stepStars() end)
+    -- self.starArcTimer = playdate.timer.new(STAR_SPEED, function() self:stepStars() end)
     self.circleShrinkTimer = playdate.timer.new(CIRCLE_SPEED, function() self:stepCircles() end)
 
-    self:spawnStar()
+    -- self:spawnStar()
 end
 
-function Background:drawStars()
-    gfx.pushContext()
-    gfx.setColor(gfx.kColorXOR)
+-- function Background:drawStars()
+--     gfx.pushContext()
+--     gfx.setColor(gfx.kColorXOR)
 
-    for i, star in ipairs(self.starArcs) do
-        local endPoint = playdate.geometry.point.new(
-            self.center100.x + (20 * math.cos(star.angle)),
-            self.center100.y + (20 * math.sin(star.angle)))
+--     for i, star in ipairs(self.starArcs) do
+--         local endPoint = playdate.geometry.point.new(
+--             self.center100.x + (20 * math.cos(star.angle)),
+--             self.center100.y + (20 * math.sin(star.angle)))
 
-        local midPoint = playdate.geometry.point.new(
-            self.center80.x + (40 * math.cos(star.angle + star.curve)),
-            self.center80.y + (40 * math.sin(star.angle + star.curve)))
+--         local midPoint = playdate.geometry.point.new(
+--             self.center80.x + (40 * math.cos(star.angle + star.curve)),
+--             self.center80.y + (40 * math.sin(star.angle + star.curve)))
 
-        local startPoint = playdate.geometry.point.new(
-            self.center30.x + (star.start * math.cos(star.angle)),
-            self.center30.y + (star.start * math.sin(star.angle)))
+--         local startPoint = playdate.geometry.point.new(
+--             self.center30.x + (star.start * math.cos(star.angle)),
+--             self.center30.y + (star.start * math.sin(star.angle)))
 
-        self:drawStar(
-            startPoint.x, startPoint.y,
-            midPoint.x, midPoint.y,
-            endPoint.x, endPoint.y,
-            STAR_STEPS,
-            star.step
-        )
-    end
-    -- playdate.graphics.unlockFocus()
-    gfx.popContext()
-
-    -- self.starfieldImage:draw(0, 0)
-end
+--         self:drawStar(
+--             startPoint.x, startPoint.y,
+--             midPoint.x, midPoint.y,
+--             endPoint.x, endPoint.y,
+--             STAR_STEPS,
+--             star.step
+--         )
+--     end
+--     gfx.popContext()
+-- end
 
 function Background:drawCircles()
     gfx.pushContext()
@@ -139,25 +136,24 @@ function Background:draw()
 
 
     -- draw the stars
-    self:drawStars()
+    -- self:drawStars()
 
     -- draw the concentric circles
     self:drawCircles()
 end
 
-function Background:stepStars()
-    for i, star in ipairs(self.starArcs) do
-        star.step = star.step + 1
-        if (star.step > STAR_STEPS) then
-            table.remove(self.starArcs, i)
-        end
-    end
-    self.starArcTimer = playdate.timer.new(STAR_SPEED, function() self:stepStars() end)
-end
+-- function Background:stepStars()
+--     for i, star in ipairs(self.starArcs) do
+--         star.step = star.step + 1
+--         if (star.step > STAR_STEPS) then
+--             table.remove(self.starArcs, i)
+--         end
+--     end
+--     self.starArcTimer = playdate.timer.new(STAR_SPEED, function() self:stepStars() end)
+-- end
 
 function Background:stepCircles()
     self.opacity = self.opacity - .01
-    print(self.opacity)
     if (self.opacity < 0) then
         self.opacity = .1
     end
@@ -165,39 +161,39 @@ function Background:stepCircles()
     self.circleShrinkTimer = playdate.timer.new(CIRCLE_SPEED, function() self:stepCircles() end)
 end
 
-function Background:spawnStar()
-    table.insert(self.starArcs, {
-        angle = math.random(0, 359),
-        curve = math.random(-STAR_CURVE, STAR_CURVE),
-        start = math.random(STAR_START_POSITION_MIN, STAR_START_POSITION_MAX),
-        step = 1,
-    })
+-- function Background:spawnStar()
+--     table.insert(self.starArcs, {
+--         angle = math.random(0, 359),
+--         curve = math.random(-STAR_CURVE, STAR_CURVE),
+--         start = math.random(STAR_START_POSITION_MIN, STAR_START_POSITION_MAX),
+--         step = 1,
+--     })
 
-    self.starSpawnTimer = playdate.timer.new(math.random(STAR_SPAWN_TIME_MIN, STAR_SPAWN_TIME_MAX),
-        function() self:spawnStar() end)
-end
+--     self.starSpawnTimer = playdate.timer.new(math.random(STAR_SPAWN_TIME_MIN, STAR_SPAWN_TIME_MAX),
+--         function() self:spawnStar() end)
+-- end
 
-function Background:drawStar(x1, y1, x2, y2, x3, y3, steps, drawSegment)
-    local d = 1 / steps
-    local prevX = x1
-    local prevY = y1
-    local x, y
-    local i = 1
+-- function Background:drawStar(x1, y1, x2, y2, x3, y3, steps, drawSegment)
+--     local d = 1 / steps
+--     local prevX = x1
+--     local prevY = y1
+--     local x, y
+--     local i = 1
 
-    for t = d, 1, d do
-        x = (1 - t) ^ 2 * x1 + 2 * (1 - t) * t * x2 + t ^ 2 * x3
-        y = (1 - t) ^ 2 * y1 + 2 * (1 - t) * t * y2 + t ^ 2 * y3
-        if (i == drawSegment - 1) then
-            gfx.setLineWidth(1)
-            playdate.graphics.drawLine(prevX, prevY, x, y)
-        end
-        if (i == drawSegment) then
-            gfx.setLineWidth(STAR_STEPS / i)
-            gfx.fillCircleAtPoint(x, y, STAR_STEPS / i)
-            playdate.graphics.drawLine(prevX, prevY, x, y)
-        end
-        prevX = x
-        prevY = y
-        i = i + 1
-    end
-end
+--     for t = d, 1, d do
+--         x = (1 - t) ^ 2 * x1 + 2 * (1 - t) * t * x2 + t ^ 2 * x3
+--         y = (1 - t) ^ 2 * y1 + 2 * (1 - t) * t * y2 + t ^ 2 * y3
+--         if (i == drawSegment - 1) then
+--             gfx.setLineWidth(1)
+--             playdate.graphics.drawLine(prevX, prevY, x, y)
+--         end
+--         if (i == drawSegment) then
+--             gfx.setLineWidth(STAR_STEPS / i)
+--             gfx.fillCircleAtPoint(x, y, STAR_STEPS / i)
+--             playdate.graphics.drawLine(prevX, prevY, x, y)
+--         end
+--         prevX = x
+--         prevY = y
+--         i = i + 1
+--     end
+-- end
